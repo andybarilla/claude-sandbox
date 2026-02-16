@@ -16,11 +16,18 @@ if [ ! -d "$WORKTREE" ]; then
   exit 1
 fi
 
+GH_TOKEN=$(gh auth token 2>/dev/null || true)
+GIT_USER=$(git config --global user.name 2>/dev/null || true)
+GIT_EMAIL=$(git config --global user.email 2>/dev/null || true)
+
 docker run -it --rm \
   --name "claude-$SESSION" \
   --cap-add NET_ADMIN \
   --memory=4g \
   --cpus=2 \
+  -e GH_TOKEN="$GH_TOKEN" \
+  -e GIT_USER="$GIT_USER" \
+  -e GIT_EMAIL="$GIT_EMAIL" \
   -v "$WORKTREE:/workspace" \
   -v "$HOME/.claude:/mnt/.claude:ro" \
   -v "$HOME/.claude.json:/mnt/.claude.json:ro" \

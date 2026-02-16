@@ -34,6 +34,15 @@ else
 fi
 chown claude:claude "$CONFIG"
 
+# Configure git identity
+[ -n "${GIT_USER:-}" ] && su claude -c "git config --global user.name '$GIT_USER'"
+[ -n "${GIT_EMAIL:-}" ] && su claude -c "git config --global user.email '$GIT_EMAIL'"
+
+# Configure gh/git authentication
+if [ -n "${GH_TOKEN:-}" ]; then
+  su claude -c "gh auth setup-git"
+fi
+
 chown -R claude:claude /workspace
 
 exec su claude -c "$*"

@@ -8,6 +8,7 @@ WHITELIST=(
   "statsig.anthropic.com 443"
   "sentry.io 443"
   "github.com 443 22"
+  "api.github.com 443"
   "registry.npmjs.org 443"
 )
 
