@@ -91,7 +91,9 @@ for i in "${!WORKTREES[@]}"; do
     tmux split-window -t "$SESSION:team" -h
     tmux select-layout -t "$SESSION:team" tiled
   fi
-  tmux send-keys -t "$SESSION:team.${i}" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
+  # Send to the active pane (the one just created by split-window, or the
+  # initial pane for the first iteration) — avoids base-index assumptions
+  tmux send-keys -t "$SESSION:team" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
 done
 
 tmux select-layout -t "$SESSION:team" tiled
