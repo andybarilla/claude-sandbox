@@ -22,6 +22,7 @@ docker run -it --rm \
   --memory=4g \
   --cpus=2 \
   -v "$WORKTREE:/workspace" \
-  -v "$HOME/.claude:/root/.claude" \
+  -v "$HOME/.claude:/mnt/.claude:ro" \
+  -v "$HOME/.claude.json:/mnt/.claude.json:ro" \
   claude-sandbox \
-  -c "firewall-init.sh && claude --dangerously-skip-permissions"
+  "claude --dangerously-skip-permissions"

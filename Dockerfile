@@ -10,5 +10,10 @@ RUN npm install -g @anthropic-ai/claude-code
 COPY firewall-init.sh /usr/local/bin/firewall-init.sh
 RUN chmod +x /usr/local/bin/firewall-init.sh
 
+RUN useradd -m -s /bin/bash claude
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 WORKDIR /workspace
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

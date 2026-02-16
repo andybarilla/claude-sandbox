@@ -28,7 +28,7 @@ REPO=$(realpath "$1")
 NUM_WORKTREES="$2"
 BASE_BRANCH="${3:-}"
 
-if [ ! -d "$REPO/.git" ] && ! git -C "$REPO" rev-parse --git-dir &>/dev/null; then
+if ! git -C "$REPO" rev-parse --git-dir &>/dev/null; then
   echo "Error: '$REPO' is not a git repository"
   exit 1
 fi
@@ -38,7 +38,8 @@ if ! [[ "$NUM_WORKTREES" =~ ^[0-9]+$ ]] || [ "$NUM_WORKTREES" -lt 1 ] || [ "$NUM
   exit 1
 fi
 
-REPO_NAME=$(basename "$REPO")
+# Strip .git suffix for bare repos so worktree dir is named cleanly
+REPO_NAME=$(basename "$REPO" .git)
 WORKTREE_DIR="$(dirname "$REPO")/${REPO_NAME}-worktrees"
 
 # Resolve the base commit so every worktree starts from the same point
