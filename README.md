@@ -38,11 +38,21 @@ Or for API key users, export `ANTHROPIC_API_KEY` and add `-e ANTHROPIC_API_KEY` 
 
 ### Multiple worktrees in tmux
 
-Edit the `WORKTREES` array in `spin-up-team.sh`, then:
+Point at an existing repo and specify how many worktrees to create:
 
 ```bash
-./spin-up-team.sh
+./spin-up-team.sh <repo-path> <num-worktrees> [base-branch]
 ```
+
+For example, spin up 3 isolated Claude instances all branching from `main`:
+
+```bash
+./spin-up-team.sh ~/dev/my-project 3 main
+```
+
+This creates worktrees under `~/dev/my-project-worktrees/` (`worker-1`, `worker-2`, `worker-3`), each on its own branch, and opens a tmux session with one pane per worker. If the worktrees already exist they are reused, so the command is safe to re-run.
+
+If `base-branch` is omitted, worktrees branch from the repo's current HEAD.
 
 ## Firewall whitelist
 
