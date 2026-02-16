@@ -81,18 +81,16 @@ SESSION="claude-team"
 # Kill existing session if present
 tmux kill-session -t "$SESSION" 2>/dev/null || true
 
-tmux new-session -d -s "$SESSION"
-
 for i in "${!WORKTREES[@]}"; do
   WT="${WORKTREES[$i]}"
   NAME=$(basename "$WT")
   if [ "$i" -eq 0 ]; then
-    tmux send-keys -t "$SESSION" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
+    tmux new-session -d -s "$SESSION" -n "$NAME"
+    tmux send-keys -t "$SESSION:$NAME" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
   else
-    tmux split-window -t "$SESSION"
-    tmux send-keys -t "$SESSION" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
+    tmux new-window -t "$SESSION" -n "$NAME"
+    tmux send-keys -t "$SESSION:$NAME" "$SCRIPT_DIR/claude-worktree.sh $WT $NAME" Enter
   fi
-  tmux select-layout -t "$SESSION" tiled
 done
 
 tmux attach -t "$SESSION"
