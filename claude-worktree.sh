@@ -25,6 +25,11 @@ if [ -f "$WORKTREE/.git" ]; then
   GITDIR_MOUNT="-v $MAIN_GITDIR:$MAIN_GITDIR"
 fi
 
+GOMODCACHE_MOUNT=""
+if [ -d "$HOME/go/pkg/mod" ]; then
+  GOMODCACHE_MOUNT="-v $HOME/go/pkg/mod:/home/claude/go/pkg/mod:ro"
+fi
+
 GH_TOKEN=$(gh auth token 2>/dev/null || true)
 GIT_USER=$(git config --global user.name 2>/dev/null || true)
 GIT_EMAIL=$(git config --global user.email 2>/dev/null || true)
@@ -39,6 +44,7 @@ docker run -it --rm \
   -e GIT_EMAIL="$GIT_EMAIL" \
   -v "$WORKTREE:/workspace" \
   $GITDIR_MOUNT \
+  $GOMODCACHE_MOUNT \
   -v "$HOME/.claude:/mnt/.claude:ro" \
   -v "$HOME/.claude.json:/mnt/.claude.json:ro" \
   claude-sandbox \

@@ -10,6 +10,9 @@ WHITELIST=(
   "github.com 443 22"
   "api.github.com 443"
   "registry.npmjs.org 443"
+  "proxy.golang.org 443"
+  "sum.golang.org 443"
+  "storage.googleapis.com 443"
 )
 
 # Resolve all hostnames to IPv4 while DNS is still open
