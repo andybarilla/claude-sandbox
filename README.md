@@ -54,6 +54,16 @@ This creates worktrees under `~/dev/my-project-worktrees/` (`worker-1`, `worker-
 
 If `base-branch` is omitted, worktrees branch from the repo's current HEAD.
 
+### Cleanup
+
+When you're done, remove the worktrees, branches, and tmux session:
+
+```bash
+./cleanup-team.sh <repo-path>
+```
+
+This stops any running containers, removes all `worker-*` worktrees and branches from the repo, and cleans up the worktrees directory.
+
 ## Firewall whitelist
 
 Outbound traffic is blocked by default. Only these hosts are allowed:
@@ -73,3 +83,4 @@ Edit `firewall-init.sh` to add more hosts.
 - `firewall-init.sh` - Default-deny firewall with whitelist
 - `claude-worktree.sh` - Launch one isolated container
 - `spin-up-team.sh` - Launch multiple containers in tmux
+- `cleanup-team.sh` - Remove worktrees, branches, and tmux session
